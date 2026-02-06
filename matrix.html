@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrix — femboys</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a0a;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: "Courier New", monospace;
+    }
+    #canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      font-family: "Courier New", monospace;
+      font-size: clamp(4rem, 20vw, 12rem);
+      font-weight: bold;
+      color: #00ff41;
+      text-transform: lowercase;
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 20px #00ff41, 0 0 40px #00ff41;
+      animation: fade 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes fade {
+      0%, 100% { opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div class="text">femboys</div>
+  <script>
+    const text = "femboys";
+    const chars = text.repeat(4).split("");
+    const c = document.getElementById("canvas");
+    const ctx = c.getContext("2d");
+    let w, h, cols, drops;
+
+    function resize() {
+      w = c.width = window.innerWidth;
+      h = c.height = window.innerHeight;
+      cols = Math.floor(w / 14);
+      drops = Array(cols).fill(0);
+    }
+
+    function draw() {
+      ctx.fillStyle = "rgba(10, 10, 10, 0.05)";
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = "#00ff41";
+      ctx.font = "14px 'Courier New', monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const char = chars[i % chars.length];
+        ctx.fillText(char, i * 14, drops[i] * 14);
+        if (drops[i] * 14 > h && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+    setInterval(draw, 50);
+  </script>
+</body>
+</html>
